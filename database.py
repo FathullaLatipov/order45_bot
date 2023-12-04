@@ -12,7 +12,7 @@ fake_evos.execute('CREATE TABLE IF NOT EXISTS users (tg_id INTEGER, name TEXT,'
 
 # Создаем таблицу продукта
 fake_evos.execute('CREATE TABLE IF NOT EXISTS products (pr_id INTEGER PRIMARY KEY AUTOINCREMENT, pr_name TEXT,'
-                  'pr_price REAL, pr_quantity INTEGER, pr_des TEXT, pr_photo TEXT, reg_data DATETIME);')
+                  'pr_price REAL, pr_quantity INTEGER, pr_des TEXT, pr_photo TEXT, reg_date DATETIME);')
 
 # Создаем таблицу корзины пользователя
 fake_evos.execute('CREATE TABLE IF NOT EXISTS user_cart (user_id INTEGER, user_product TEXT,'
@@ -56,13 +56,13 @@ def add_product(pr_name, pr_price, pr_quantity, pr_des, pr_photo):
 
 # Получаем все продукты из базы только его (name, pr_id)
 def get_pr_name_id():
-    db = sqlite3.connect('dostavka.db')
+    db = sqlite3.connect("dostavka.db")
 
     fake_evos = db.cursor()
-    # 1 -Lavash descr, 2 Lavash s sirom, 3 - Gamburger
-    products = fake_evos.execute('SELECT pr_id, pr_name FROM products;').fetchall()
 
-    sorted_products = [(i[1], i[0]) for i in products if i[3] > 0]
+    products = fake_evos.execute("SELECT pr_id, pr_name, pr_quantity FROM products;").fetchall()
+
+    sorted_products = [(i[1], i[0]) for i in products if i[2] > 0]
 
     return sorted_products
 
