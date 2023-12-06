@@ -117,11 +117,26 @@ def delete_product_from_cart(user_id):
 
     fake_evos.execute('DELETE FROM user_cart WHERE user_id=?;', (user_id,))
 
-# Получить корзину пользователя
-# def get_exact_user_cart(user_id):
-#     db = sqlite3.connect('dostavka.db')
-#
-#     fake_evos = db.cursor()
-#
-#     user_cart = fake_evos.execute('SELECT products.pr_name, user_cart.quantity, user_cart.total_for_price'
-#                                   'FROM products WHERE products.pr_id = user_cart.user_product')
+
+def get_user_cart(user_id):
+    db = sqlite3.connect('dostavka.db')
+
+    fake_evos = db.cursor()
+
+    user_cart = fake_evos.execute('SELECT products.pr_name, user_cart.quantity, user_cart.total_for_price'
+                                  'FROM products INNER JOIN user_cart ON products.pr_id = user_cart.user_product'
+                                  'WHERE user_cart.user_id=?;', (user_id,)).fetchall()
+    print(user_cart)
+    return user_cart
+
+
+# Получить номер телефона и имя пользователя
+
+def get_user_number_name(user_id):
+    db = sqlite3.connect('dostavka.db')
+
+    fake_evos = db.cursor()
+
+    exact_user = fake_evos.execute('SELECT name, phone_number FROM users WHERE tg_id=?;', (user_id,))
+
+    return exact_user

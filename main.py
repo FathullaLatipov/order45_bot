@@ -112,7 +112,23 @@ def user_order(call):
 
     #Если пользователь нажал на Оформить заказ
     if call.data == 'order':
-        pass
+        #Удалим сообщения с верхними кнопками
+        bot.delete_message(user_id, message_id)
+        user_cart = database.get_user_cart(user_id)
+
+        # Формируем сообщения со всемы данными
+        full_text = 'Ваш заказ:\n\n'
+        user_info = database.get_user_number_name(user_id)
+        full_text += f'Имя: {user_info[0]} \n Номер телефона: {user_info[1]}\n'
+        total_amount = 0
+
+        for i in user_cart:
+            full_text += f'{i[0]} x {i[1]} = {i[2]}\n'
+            total_amount += i[2]
+
+        full_text += f'\n Итог: {total_amount}'
+        # на след уроке кнопку
+        bot.send_message(user_id, full_text)
 
 
 
