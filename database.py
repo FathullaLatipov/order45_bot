@@ -89,7 +89,7 @@ def get_product_info_id(pr_id):
 
     fake_evos = db.cursor()
 
-    product_id = fake_evos.execute('SELECT * FROM products WHERE pr_id=?;', (pr_id,)).fetchone()
+    product_id = fake_evos.execute('SELECT * FROM products WHERE pr_id=?;', (pr_id,)).fetchone()[2]
 
     return product_id
 
